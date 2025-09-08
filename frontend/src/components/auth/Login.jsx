@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { FaUserShield, FaUser } from "react-icons/fa";
 
 const Login = ({ onLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [selectedRole, setSelectedRole] = useState("user"); // Default to 'user'
+  const [selectedRole, setSelectedRole] = useState("user");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -15,7 +16,6 @@ const Login = ({ onLogin }) => {
     setIsLoading(true);
 
     try {
-      // Using the full URL to ensure the request hits the backend server
       const response = await fetch("http://localhost:3002/api/login", {
         method: "POST",
         headers: {
@@ -30,7 +30,6 @@ const Login = ({ onLogin }) => {
         throw new Error(data.error || "Login failed");
       }
 
-      // Pass both user and token to the onLogin handler for consistency
       onLogin(data.user, data.token);
       navigate("/dashboard");
     } catch (err) {
@@ -42,47 +41,48 @@ const Login = ({ onLogin }) => {
 
   return (
     <div
-      className="flex min-h-screen bg-cover bg-center" // Changed: min-h-[calc(100vh-64px)] to min-h-screen
-      style={{ backgroundImage: "url('2021060946-scaled.jpg')" }}
+      className="flex min-h-screen bg-cover bg-center bg-black"
+      // style={{ backgroundImage: "url('ee6ebbdd8313eb2cd7a0da02c05c1ad4.jpg')" }}
     >
       <div className="w-full max-w-md m-auto">
-        <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-2xl p-8">
+        <div className="bg-white/10 border-4 border-white rounded-xl shadow-2xl p-8">
           <div className="text-center mb-6">
-            <h2 className="text-3xl font-bold text-gray-800">
-              FRA Atlas & WebGIS
-            </h2>
-            <p className="text-gray-600 mt-1">
+            <h2 class="text-3xl font-bold text-gray-700 bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-transparent">
+            VANNETRA & WebGIS
+          </h2>
+              
+            <p className="text-white mt-1" >
               Forest Rights Act Decision Support System
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-white mb-2">
                 Login As
               </label>
-              <div className="grid grid-cols-2 gap-2 p-1 bg-gray-200 rounded-lg">
+              <div className="grid grid-cols-2 gap-2 p-1 bg-gray-200 rounded-md">
                 <button
                   type="button"
                   onClick={() => setSelectedRole("admin")}
-                  className={`w-full py-2 text-sm font-semibold rounded-md transition-colors ${
+                  className={`w-full py-2 text-sm font-semibold rounded-md transition-all duration-300 flex items-center justify-center ${
                     selectedRole === "admin"
-                      ? "bg-white text-green-700 shadow"
-                      : "bg-transparent text-gray-600"
+                      ? "bg-green-600 text-white shadow"
+                      : "bg-transparent text-gray-600 hover:bg-gray-300 hover:text-gray-800 hover:scale-105"
                   }`}
                 >
-                  Admin
+                  <FaUserShield className="mr-2" /> Admin
                 </button>
                 <button
                   type="button"
                   onClick={() => setSelectedRole("user")}
-                  className={`w-full py-2 text-sm font-semibold rounded-md transition-colors ${
+                  className={`w-full py-2 text-sm font-semibold rounded-md transition-all duration-300 flex items-center justify-center ${
                     selectedRole === "user"
-                      ? "bg-white text-green-700 shadow"
-                      : "bg-transparent text-gray-600"
+                      ? "bg-green-600 text-white shadow"
+                      : "bg-transparent text-gray-600 hover:bg-gray-300 hover:text-gray-800 hover:scale-105"
                   }`}
                 >
-                  Beneficiary
+                  <FaUser className="mr-2" /> Beneficiary
                 </button>
               </div>
             </div>
@@ -99,7 +99,7 @@ const Login = ({ onLogin }) => {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium text-white "
               >
                 Email Address
               </label>
@@ -111,7 +111,7 @@ const Login = ({ onLogin }) => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300  shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 placeholder-gray-400 rounded-md"
                 placeholder="Enter your email"
               />
             </div>
@@ -119,7 +119,7 @@ const Login = ({ onLogin }) => {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium text-white"
               >
                 Password
               </label>
@@ -131,7 +131,7 @@ const Login = ({ onLogin }) => {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none placeholder-gray-400"
                 placeholder="Enter your password"
               />
             </div>
@@ -140,8 +140,10 @@ const Login = ({ onLogin }) => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 ${
-                  isLoading ? "opacity-70 cursor-not-allowed" : ""
+                className={`w-full flex justify-center py-3 px-4 border border-transparent shadow-sm text-sm font-bold text-white transition-all duration-300 transform rounded-md ${
+                  isLoading
+                    ? "opacity-70 cursor-not-allowed"
+                    : "bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 hover:scale-105" // Added hover effects
                 }`}
               >
                 {isLoading ? "Signing In..." : "Sign In"}
@@ -150,7 +152,7 @@ const Login = ({ onLogin }) => {
           </form>
 
           <div className="mt-6 text-center text-sm">
-            <p className="text-gray-600">
+            <p className="text-white">
               Don't have an account?{" "}
               <Link
                 to="/register"

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import {
-  Chart as ChartJS,
-  ArcElement,
-  Tooltip,
+import { 
+  Chart as ChartJS, 
+  ArcElement, 
+  Tooltip, 
   Legend,
   CategoryScale,
   LinearScale,
@@ -14,8 +14,8 @@ import { Pie, Bar } from 'react-chartjs-2';
 
 // Register Chart.js components
 ChartJS.register(
-  ArcElement,
-  Tooltip,
+  ArcElement, 
+  Tooltip, 
   Legend,
   CategoryScale,
   LinearScale,
@@ -77,7 +77,8 @@ const Dashboard = ({ user, mockData }) => {
     datasets: [
       {
         data: stats ? [stats.approvedClaims, stats.pendingClaims, stats.rejectedClaims] : [],
-        backgroundColor: ['#22c55e', '#f59e0b', '#ef4444'],
+        backgroundColor: ['#10B981', '#F59E0B', '#EF4444'],
+        borderColor: ['#047857', '#92400E', '#B91C1C'],
         borderWidth: 1,
       },
     ],
@@ -89,7 +90,8 @@ const Dashboard = ({ user, mockData }) => {
     datasets: [
       {
         data: stats ? [stats.individualClaims, stats.communityClaims] : [],
-        backgroundColor: ['#3b82f6', '#8b5cf6'],
+        backgroundColor: ['#3B82F6', '#8B5CF6'],
+        borderColor: ['#1D4ED8', '#6D28D9'],
         borderWidth: 1,
       },
     ],
@@ -107,7 +109,9 @@ const Dashboard = ({ user, mockData }) => {
       {
         label: 'Number of Claims',
         data: stateDistribution ? Object.values(stateDistribution) : [],
-        backgroundColor: '#4ade80',
+        backgroundColor: '#10B981',
+        borderColor: '#047857',
+        borderWidth: 1,
       }
     ]
   };
@@ -117,16 +121,20 @@ const Dashboard = ({ user, mockData }) => {
     plugins: {
       legend: {
         position: 'top',
+        labels: {
+          color: '#164011',
+        }
       },
       title: {
         display: true,
         text: 'Claims by State',
+        color: '#164011',
       },
     },
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 bg-[#f0f2f5]">
+    <div className="container mx-auto px-4 py-8 bg-gray-100 min-h-screen">
       {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-start mb-8">
         <div>
@@ -142,7 +150,7 @@ const Dashboard = ({ user, mockData }) => {
         <div className="mt-4 md:mt-0">
           <Link
             to="/map"
-            className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md inline-flex items-center"
+            className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md inline-flex items-center transition-colors duration-300"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M12 1.586l-4 4H2a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V7.586l-4-4H12zM6 7h8v7H6V7z" clipRule="evenodd" />
@@ -157,7 +165,7 @@ const Dashboard = ({ user, mockData }) => {
         <div className="space-y-8">
           {/* Statistics Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-[#F5F5F5] rounded-lg shadow p-6">
+            <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-600 transition-shadow duration-300 hover:shadow-lg">
               <div className="flex items-center">
                 <div className="p-3 rounded-full bg-green-100 text-green-600">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -166,11 +174,11 @@ const Dashboard = ({ user, mockData }) => {
                 </div>
                 <div className="ml-4">
                   <p className="text-sm font-medium text-gray-500">Total Claims</p>
-                  <p className="text-2xl font-semibold text-gray-800">{stats.totalClaims}</p>
+                  <p className="text-2xl font-bold text-gray-800">{stats.totalClaims}</p>
                 </div>
               </div>
               <div className="mt-4">
-                <div className="flex justify-between text-sm">
+                <div className="flex justify-between text-sm text-gray-600">
                   <p>Approved: <span className="font-semibold text-green-600">{stats.approvedClaims}</span></p>
                   <p>Pending: <span className="font-semibold text-amber-600">{stats.pendingClaims}</span></p>
                   <p>Rejected: <span className="font-semibold text-red-600">{stats.rejectedClaims}</span></p>
@@ -178,7 +186,7 @@ const Dashboard = ({ user, mockData }) => {
               </div>
             </div>
 
-            <div className="bg-[#F5F5F5] rounded-lg shadow p-6">
+            <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-600 transition-shadow duration-300 hover:shadow-lg">
               <div className="flex items-center">
                 <div className="p-3 rounded-full bg-blue-100 text-blue-600">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -187,18 +195,18 @@ const Dashboard = ({ user, mockData }) => {
                 </div>
                 <div className="ml-4">
                   <p className="text-sm font-medium text-gray-500">Beneficiary Types</p>
-                  <p className="text-2xl font-semibold text-gray-800">{stats.individualClaims + stats.communityClaims}</p>
+                  <p className="text-2xl font-bold text-gray-800">{stats.individualClaims + stats.communityClaims}</p>
                 </div>
               </div>
               <div className="mt-4">
-                <div className="flex justify-between text-sm">
+                <div className="flex justify-between text-sm text-gray-600">
                   <p>Individual: <span className="font-semibold text-blue-600">{stats.individualClaims}</span></p>
                   <p>Community: <span className="font-semibold text-purple-600">{stats.communityClaims}</span></p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-[#F5F5F5] rounded-lg shadow p-6">
+            <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-600 transition-shadow duration-300 hover:shadow-lg">
               <div className="flex items-center">
                 <div className="p-3 rounded-full bg-green-100 text-green-600">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -207,7 +215,7 @@ const Dashboard = ({ user, mockData }) => {
                 </div>
                 <div className="ml-4">
                   <p className="text-sm font-medium text-gray-500">Total Land Area</p>
-                  <p className="text-2xl font-semibold text-gray-800">{stats.totalArea} ha</p>
+                  <p className="text-2xl font-bold text-gray-800">{stats.totalArea} ha</p>
                 </div>
               </div>
               <div className="mt-4">
@@ -220,21 +228,21 @@ const Dashboard = ({ user, mockData }) => {
 
           {/* Charts */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="bg-[#F5F5F5] rounded-lg shadow p-6">
+            <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">Claims by Status</h3>
               <div className="h-64">
                 <Pie data={statusChartData} />
               </div>
             </div>
 
-            <div className="bg-[#F5F5F5] rounded-lg shadow p-6">
+            <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">Claims by Type</h3>
               <div className="h-64">
                 <Pie data={typeChartData} />
               </div>
             </div>
 
-            <div className="bg-[#F5F5F5] rounded-lg shadow p-6">
+            <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">Geographic Distribution</h3>
               <div className="h-64">
                 <Bar data={stateChartData} options={stateChartOptions} />
@@ -243,10 +251,10 @@ const Dashboard = ({ user, mockData }) => {
           </div>
 
           {/* Quick Actions */}
-          <div className="bg-[#F5F5F5] rounded-lg shadow p-6">
+          <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
             <h3 className="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Link to="/ocr" className="bg-[#E8F5E9] hover:bg-[#C8E6C9] p-4 rounded-lg flex items-center">
+              <Link to="/ocr" className="bg-green-50 hover:bg-green-100 p-4 rounded-lg flex items-center transition-colors duration-300">
                 <div className="bg-green-100 p-2 rounded-md">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
@@ -258,7 +266,7 @@ const Dashboard = ({ user, mockData }) => {
                 </div>
               </Link>
               
-              <Link to="/map" className="bg-[#E3F2FD] hover:bg-[#BBDEFB] p-4 rounded-lg flex items-center">
+              <Link to="/map" className="bg-blue-50 hover:bg-blue-100 p-4 rounded-lg flex items-center transition-colors duration-300">
                 <div className="bg-blue-100 p-2 rounded-md">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
@@ -270,7 +278,7 @@ const Dashboard = ({ user, mockData }) => {
                 </div>
               </Link>
               
-              <Link to="/dss" className="bg-[#F3E5F5] hover:bg-[#E1BEE7] p-4 rounded-lg flex items-center">
+              <Link to="/dss" className="bg-purple-50 hover:bg-purple-100 p-4 rounded-lg flex items-center transition-colors duration-300">
                 <div className="bg-purple-100 p-2 rounded-md">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -290,7 +298,7 @@ const Dashboard = ({ user, mockData }) => {
       {user.role === 'user' && userRecord && (
         <div className="space-y-8">
           {/* User's Claim Card */}
-          <div className="bg-[#F5F5F5] rounded-lg shadow overflow-hidden">
+          <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
             <div className={`px-6 py-4 ${
               userRecord.claimStatus === 'Approved' ? 'bg-green-600' : 
               userRecord.claimStatus === 'Pending' ? 'bg-amber-500' : 'bg-red-600'
@@ -302,11 +310,11 @@ const Dashboard = ({ user, mockData }) => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <h4 className="text-sm font-medium text-gray-500">Claim Type</h4>
-                  <p className="text-lg font-medium">{userRecord.claimType}</p>
+                  <p className="text-lg font-medium text-gray-800">{userRecord.claimType}</p>
                 </div>
                 <div>
                   <h4 className="text-sm font-medium text-gray-500">Status</h4>
-                  <p className={`text-lg font-medium ${
+                  <p className={`text-lg font-bold ${
                     userRecord.claimStatus === 'Approved' ? 'text-green-600' : 
                     userRecord.claimStatus === 'Pending' ? 'text-amber-600' : 'text-red-600'
                   }`}>
@@ -315,11 +323,11 @@ const Dashboard = ({ user, mockData }) => {
                 </div>
                 <div>
                   <h4 className="text-sm font-medium text-gray-500">Location</h4>
-                  <p className="text-lg font-medium">{userRecord.village}, {userRecord.district}, {userRecord.state}</p>
+                  <p className="text-lg font-medium text-gray-800">{userRecord.village}, {userRecord.district}, {userRecord.state}</p>
                 </div>
                 <div>
                   <h4 className="text-sm font-medium text-gray-500">Land Area</h4>
-                  <p className="text-lg font-medium">{userRecord.area} hectares</p>
+                  <p className="text-lg font-medium text-gray-800">{userRecord.area} hectares</p>
                 </div>
               </div>
 
@@ -343,17 +351,17 @@ const Dashboard = ({ user, mockData }) => {
           </div>
           
           {/* Eligible Schemes */}
-          <div className="bg-[#F5F5F5] rounded-lg shadow p-6">
+          <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
             <h3 className="text-lg font-semibold text-gray-800 mb-4">Eligible Schemes</h3>
             
             {recommendedSchemes.length > 0 ? (
               <div className="space-y-4">
                 {recommendedSchemes.map(scheme => (
-                  <div key={scheme.id} className="border border-gray-200 rounded-lg p-4">
+                  <div key={scheme.id} className="border border-gray-200 rounded-lg p-4 transition-colors duration-300 hover:border-green-400">
                     <h4 className="font-semibold text-gray-800">{scheme.name}</h4>
                     <p className="text-gray-600 mt-1">{scheme.description}</p>
                     <div className="mt-3 flex flex-col sm:flex-row sm:justify-between">
-                      <div className="text-sm">
+                      <div className="text-sm text-gray-600">
                         <span className="font-medium text-gray-700">Benefits:</span> {scheme.benefits}
                       </div>
                       <Link to="/dss" className="mt-2 sm:mt-0 text-green-600 hover:text-green-700 text-sm font-medium">

@@ -21,13 +21,15 @@ const OcrProcessor = () => {
         };
         fileReader.readAsDataURL(selectedFile);
       } else {
-        // For PDFs, use a placeholder
+        // For PDFs, use a placeholder. The path was incorrect.
         setPreviewUrl('/images/PDFDocument.jpg');
       }
       
       // Reset results
       setProcessedText('');
       setExtractedEntities(null);
+      // Reset to the default tab
+      setActiveTab('ocr');
     }
   };
 
@@ -111,9 +113,11 @@ Counter Signed by Forest Rights Committee: [SIGNATURES]`;
       setProcessedText(mockResult);
       
       // Simulate NER extraction
-      if (mockResult !== '') {
+      if (mockResult !== '' && !mockResult.includes('Unable to extract text')) {
         const mockEntities = extractEntitiesFromText(mockResult);
         setExtractedEntities(mockEntities);
+      } else {
+        setExtractedEntities(null); // Clear entities if OCR failed
       }
       
       setProcessing(false);
@@ -154,7 +158,7 @@ Counter Signed by Forest Rights Committee: [SIGNATURES]`;
     }
     
     // Extract locations (look for common location terms)
-    const locationKeywords = ['Village', 'District', 'State', 'Panchayat', 'Tehsil', 'Taluka'];
+    const locationKeywords = ['Village', 'District', 'State', 'Panchayat', 'Tehsil', 'Taluka', 'Gram Sabha'];
     locationKeywords.forEach(keyword => {
       const regex = new RegExp(`${keyword}[^:]*:\\s*([A-Za-z\\s]+)`, 'g');
       const matches = [...text.matchAll(regex)];
@@ -213,6 +217,14 @@ Counter Signed by Forest Rights Committee: [SIGNATURES]`;
     linkElement.click();
   };
 
+  const handleRemove = () => {
+    setFile(null);
+    setPreviewUrl(null);
+    setProcessedText('');
+    setExtractedEntities(null);
+    setActiveTab('ocr');
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row justify-between items-start mb-8">
@@ -233,7 +245,7 @@ Counter Signed by Forest Rights Committee: [SIGNATURES]`;
             <div className="flex-1">
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
                 {!file ? (
-                  <div className="space-y-2">
+                  <div className="space-y-2 relative">
                     <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                     </svg>
@@ -241,7 +253,7 @@ Counter Signed by Forest Rights Committee: [SIGNATURES]`;
                     <p className="text-sm text-gray-400">Supported formats: JPG, PNG, PDF</p>
                     <input
                       type="file"
-                      accept="/images/fileupload.jpg,.pdf"
+                      accept=".jpg,.jpeg,.png,.pdf" // Corrected the accept attribute
                       onChange={handleFileChange}
                       className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                     />
@@ -252,7 +264,7 @@ Counter Signed by Forest Rights Committee: [SIGNATURES]`;
                 ) : (
                   <div className="space-y-4">
                     <div>
-                      {previewUrl && previewUrl.includes('data:image') ? (
+                      {previewUrl && previewUrl.startsWith('data:image') ? (
                         <img src={previewUrl} alt="Document preview" className="max-h-40 mx-auto" />
                       ) : (
                         <div className="flex items-center justify-center">
@@ -265,12 +277,7 @@ Counter Signed by Forest Rights Committee: [SIGNATURES]`;
                     <p className="text-gray-700 font-medium">{file.name}</p>
                     <div className="flex justify-center gap-2">
                       <button
-                        onClick={() => {
-                          setFile(null);
-                          setPreviewUrl(null);
-                          setProcessedText('');
-                          setExtractedEntities(null);
-                        }}
+                        onClick={handleRemove} // Use the new handleRemove function
                         className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100"
                       >
                         Remove
@@ -298,9 +305,9 @@ Counter Signed by Forest Rights Committee: [SIGNATURES]`;
                     Document Upload
                     {file && <span className="ml-2 text-green-600">✓</span>}
                   </li>
-                  <li className={`p-2 rounded-md ${processedText ? 'bg-green-100' : file ? 'bg-blue-50' : ''}`}>
+                  <li className={`p-2 rounded-md ${processedText && !processedText.includes('Unable to extract') ? 'bg-green-100' : file ? 'bg-blue-50' : ''}`}>
                     OCR Text Extraction
-                    {processedText && <span className="ml-2 text-green-600">✓</span>}
+                    {processedText && !processedText.includes('Unable to extract') && <span className="ml-2 text-green-600">✓</span>}
                   </li>
                   <li className={`p-2 rounded-md ${extractedEntities ? 'bg-green-100' : processedText ? 'bg-blue-50' : ''}`}>
                     NER Entity Recognition
