@@ -7,6 +7,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
+import HomeNavbar from "./components/layout/HomeNavbar";
 import Dashboard from "./components/dashboard/Dashboard";
 import MapComponent from "./components/map/MapComponent";
 import OcrProcessor from "./components/ai/OcrProcessor";
@@ -14,19 +15,16 @@ import DssEngine from "./components/ai/DssEngine";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 
-// We create an inner component to contain the logic.
-// This allows us to use the `useLocation` hook correctly, as it will be inside the `<Router>`.
 const AppContent = () => {
   const [user, setUser] = useState(null);
   const [mockData, setMockData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const location = useLocation(); // Get the current location
+  const location = useLocation();
 
-  // Determine if the navbar should be shown based on the route
-  const showNavbar = !['/login', '/register'].includes(location.pathname);
+  const showMainNavbar = user && !["/login", "/register"].includes(location.pathname);
+  const showHomeNavbar = !user && location.pathname === "/";
 
   useEffect(() => {
-    // Load mock data
     fetch("/data/mockData.json")
       .then((response) => response.json())
       .then((data) => {
@@ -38,7 +36,6 @@ const AppContent = () => {
         setIsLoading(false);
       });
 
-    // Check for user in localStorage
     const storedUser = localStorage.getItem("fraUser");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
@@ -67,11 +64,17 @@ const AppContent = () => {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
-      {/* Conditionally render the Navbar here */}
-      {showNavbar && <Navbar user={user} onLogout={handleLogout} />}
+    
+    <div className="flex flex-col min-h-screen relative ">
 
-      <main className="flex-1">
+      
+      {/* Your existing Navbar logic */}
+      {showHomeNavbar && <HomeNavbar />}
+      {showMainNavbar && <Navbar user={user} onLogout={handleLogout} />}
+
+      
+      
+      <main className="flex-1 flex flex-col">
         <Routes>
           <Route
             path="/"
@@ -79,12 +82,21 @@ const AppContent = () => {
               user ? (
                 <Navigate to="/dashboard" replace />
               ) : (
-                <div className="flex-1 flex flex-col items-center justify-center p-6 bg-gradient-to-br from-green-50 to-blue-50">
-                  <div className="max-w-3xl text-center space-y-6 animate-in fade-in slide-in-from-bottom-8 duration-700">
-                    <h1 className="text-5xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+                
+                <div className="flex-1 flex flex-col items-center justify-center p-4 text-center">
+                  <div
+        className="fixed inset-0 -z-10 bg-[url('back.jpg')] bg-cover bg-no-repeat bg-center"
+        aria-hidden="true"
+      />
+      <div
+        className="fixed inset-0 -z-10 bg-gradient-to-br from-green-600/40 to-blue-600/40"
+        aria-hidden="true"
+      />
+                  <div className="w-full max-w-3xl text-center space-y-6 animate-in fade-in slide-in-from-bottom-8 duration-700 bg-black/20 backdrop-blur-sm p-8 rounded-xl">
+                    <h1 className="text-5xl font-bold text-white drop-shadow-lg">
                       FRA Atlas & WebGIS Decision Support System
                     </h1>
-                    <p className="text-xl text-gray-700 animate-in fade-in delay-300 duration-700">
+                    <p className="text-xl text-gray-200 drop-shadow-md animate-in fade-in delay-300 duration-700">
                       Empowering forest-dwelling communities through AI-powered
                       spatial mapping and decision support
                     </p>
@@ -106,12 +118,10 @@ const AppContent = () => {
             path="/login"
             element={<Login onLogin={handleLogin} mockData={mockData} />}
           />
-
           <Route
             path="/register"
             element={<Register onLogin={handleLogin} />}
           />
-
           <Route
             path="/dashboard"
             element={
@@ -122,7 +132,6 @@ const AppContent = () => {
               )
             }
           />
-
           <Route
             path="/map"
             element={
@@ -133,7 +142,6 @@ const AppContent = () => {
               )
             }
           />
-
           <Route
             path="/ocr"
             element={
@@ -144,7 +152,6 @@ const AppContent = () => {
               )
             }
           />
-
           <Route
             path="/dss"
             element={
@@ -161,8 +168,6 @@ const AppContent = () => {
   );
 };
 
-
-// The main App component now simply provides the Router context.
 function App() {
   return (
     <Router>

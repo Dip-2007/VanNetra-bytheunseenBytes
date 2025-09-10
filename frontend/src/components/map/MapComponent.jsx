@@ -94,7 +94,7 @@ const MapComponent = ({ user, mockData }) => {
   };
 
   return (
-    <div className="flex h-[calc(100vh-64px)]">
+    <div className="flex h-[calc(100vh-64px)] min-w-full">
       {/* Sidebar */}
       <Sidebar
         layers={mockData?.gisLayers}

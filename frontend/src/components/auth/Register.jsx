@@ -49,13 +49,22 @@ const Register = ({ onLogin }) => {
 
   return (
     <div
-      className="flex min-h-screen bg-cover bg-center bg-black"
-      // style={{ backgroundImage: "url('2021060946-scaled.jpg')" }}
+      className="flex min-h-screen bg-cover bg-center "
+      // style={{ backgroundImage: "url('WhatsApp Image 2025-09-10 at 00.13.40_3aa68055.jpg')" }}
+      
     >
+      <div
+        className="fixed inset-0 -z-10 bg-[url('back.jpg')] bg-cover bg-no-repeat bg-center"
+        aria-hidden="true"
+      />
+      <div
+        className="fixed inset-0 -z-10 bg-gradient-to-br from-green-600/40 to-blue-600/40"
+        aria-hidden="true"
+      />
       <div className="w-full max-w-md m-auto">
-        <div className="bg-white/10 border-4 border-white rounded-xl shadow-2xl p-8">
+        <div className="bg-black/55 border-4 border-white rounded-xl shadow-2xl p-8">
           <div className="text-center mb-6">
-            <h2 className="text-3xl font-bold text-white">
+            <h2 className="text-3xl font-bold text-green-600">
               Create Account
             </h2>
             <p className="text-white mt-1">
@@ -88,7 +97,7 @@ const Register = ({ onLogin }) => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 placeholder-gray-400"
-                placeholder="Enter your full name"
+                placeholder="Enter your full name / Username"
               />
             </div>
 
@@ -185,7 +194,7 @@ const Register = ({ onLogin }) => {
             </div>
           </form>
 
-          <div className="mt-6 text-center text-sm">
+          <div className="mt-6 text-center text-xl">
             <p className="text-white">
               Already have an account?{" "}
               <Link
