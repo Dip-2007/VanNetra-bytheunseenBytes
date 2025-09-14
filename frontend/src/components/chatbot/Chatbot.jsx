@@ -5,23 +5,36 @@ const getBotResponse = (userInput) => {
   const text = userInput.toLowerCase().trim();
   if (text.includes("hello") || text.includes("hi")) {
     return "Hello there! How can I help you today?";
-  }
-  if (text.includes("dashboard")) {
-    return "The dashboard provides an overview of Forest Rights Act claims, showing statistics and key metrics.";
-  }
-  if (text.includes("map") || text.includes("gis")) {
-    return "The WebGIS Map allows you to visualize claim areas, forest boundaries, and other spatial data interactively.";
-  }
-  if (text.includes("dss")) {
-    return "The Decision Support System (DSS) helps in analyzing data to make informed decisions regarding land claims.";
-  }
-  if (text.includes("ocr")) {
-    return "The OCR Processor is an admin tool to digitize physical documents by extracting text from images.";
-  }
-  if (text.includes("support") || text.includes("help")) {
+}
+if (text.includes("dashboard")) {
+    return "The dashboard provides an overview of Forest Rights Act claims, showing statistics and key metrics for states like Madhya Pradesh, Tripura, Odisha, and Telangana.";
+}
+if (text.includes("map") || text.includes("gis")) {
+    return "The WebGIS Map allows you to visualize FRA claim areas, forest boundaries, village assets, and other spatial data interactively. You can filter by state, district, village, or tribal group.";
+}
+if (text.includes("dss")) {
+    return "The Decision Support System (DSS) helps analyze FRA data and recommend Central Sector Schemes (CSS) interventions like PM-KISAN, Jal Jeevan Mission, MGNREGA, and DAJGUA for FRA patta holders.";
+}
+if (text.includes("ocr") || text.includes("digitize")) {
+    return "The OCR Processor digitizes legacy FRA documents, extracts village names, patta holders, coordinates, and claim status using AI-based Named Entity Recognition (NER).";
+}
+if (text.includes("ai") || text.includes("ml") || text.includes("satellite")) {
+    return "Our AI/ML tools use satellite imagery to map land-use, forests, water bodies, and village assets. This helps create an FRA Atlas and support decision-making through the DSS.";
+}
+if (text.includes("support") || text.includes("help")) {
     return "You can find help documentation on the Support page or contact us through the Feedback form. What do you need help with?";
-  }
-  return "I'm sorry, I don't understand that. You can ask me about the Dashboard, Map, DSS, or OCR features.";
+}
+if (text.includes("objectives") || text.includes("goal")) {
+    return "The project aims to digitize FRA records, create an AI-powered FRA Atlas, integrate spatial and socio-economic data on a WebGIS platform, and build a DSS to prioritize and recommend schemes for FRA holders.";
+}
+if (text.includes("states") || text.includes("coverage")) {
+    return "The project currently focuses on Madhya Pradesh, Tripura, Odisha, and Telangana, with plans to expand coverage in the future.";
+}
+if (text.includes("future") || text.includes("scope")) {
+    return "Future plans include integrating real-time satellite feeds, IoT sensors for soil and water monitoring, and enabling mobile-based feedback from patta holders.";
+}
+return "I'm sorry, I don't understand that. You can ask me about the Dashboard, Map, DSS, OCR, AI/ML tools, objectives, target states, or future plans of the FRA Atlas project.";
+
 };
 
 
