@@ -1,12 +1,18 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import icons for password visibility
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Register = ({ onLogin }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [stateName, setStateName] = useState("");
+  const [district, setDistrict] = useState("");
+  const [village, setVillage] = useState("");
+  const [caste, setCaste] = useState("");
+
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -29,7 +35,16 @@ const Register = ({ onLogin }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+          mobile,
+          state: stateName,
+          district,
+          village,
+          caste,
+        }),
       });
 
       const data = await response.json();
@@ -48,11 +63,7 @@ const Register = ({ onLogin }) => {
   };
 
   return (
-    <div
-      className="flex min-h-screen bg-cover bg-center "
-      // style={{ backgroundImage: "url('WhatsApp Image 2025-09-10 at 00.13.40_3aa68055.jpg')" }}
-      
-    >
+    <div className="flex min-h-screen bg-cover bg-center">
       <div
         className="fixed inset-0 -z-10 bg-[url('back.jpg')] bg-cover bg-no-repeat bg-center"
         aria-hidden="true"
@@ -67,9 +78,7 @@ const Register = ({ onLogin }) => {
             <h2 className="text-3xl font-bold text-green-600">
               Create Account
             </h2>
-            <p className="text-white mt-1">
-              Register as a new Beneficiary
-            </p>
+            <p className="text-white mt-1">Register as a new Beneficiary</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -82,6 +91,7 @@ const Register = ({ onLogin }) => {
               </div>
             )}
 
+            {/* Name */}
             <div>
               <label
                 htmlFor="name"
@@ -91,16 +101,16 @@ const Register = ({ onLogin }) => {
               </label>
               <input
                 id="name"
-                name="name"
                 type="text"
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 placeholder-gray-400"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
                 placeholder="Enter your full name / Username"
               />
             </div>
 
+            {/* Email */}
             <div>
               <label
                 htmlFor="email"
@@ -110,17 +120,111 @@ const Register = ({ onLogin }) => {
               </label>
               <input
                 id="email"
-                name="email"
                 type="email"
-                autoComplete="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 placeholder-gray-400"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
                 placeholder="Enter your email"
               />
             </div>
 
+            {/* Mobile */}
+            <div>
+              <label
+                htmlFor="mobile"
+                className="block text-sm font-medium text-white"
+              >
+                Mobile Number
+              </label>
+              <input
+                id="mobile"
+                type="tel"
+                required
+                value={mobile}
+                onChange={(e) => setMobile(e.target.value)}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                placeholder="Enter your mobile number"
+              />
+            </div>
+
+            {/* State */}
+            <div>
+              <label
+                htmlFor="state"
+                className="block text-sm font-medium text-white"
+              >
+                State
+              </label>
+              <input
+                id="state"
+                type="text"
+                required
+                value={stateName}
+                onChange={(e) => setStateName(e.target.value)}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                placeholder="Enter your state"
+              />
+            </div>
+
+            {/* District */}
+            <div>
+              <label
+                htmlFor="district"
+                className="block text-sm font-medium text-white"
+              >
+                District
+              </label>
+              <input
+                id="district"
+                type="text"
+                required
+                value={district}
+                onChange={(e) => setDistrict(e.target.value)}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                placeholder="Enter your district"
+              />
+            </div>
+
+            {/* Village */}
+            <div>
+              <label
+                htmlFor="village"
+                className="block text-sm font-medium text-white"
+              >
+                Village
+              </label>
+              <input
+                id="village"
+                type="text"
+                required
+                value={village}
+                onChange={(e) => setVillage(e.target.value)}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                placeholder="Enter your village"
+              />
+            </div>
+
+            {/* Caste */}
+            <div>
+              <label
+                htmlFor="caste"
+                className="block text-sm font-medium text-white"
+              >
+                Caste
+              </label>
+              <input
+                id="caste"
+                type="text"
+                required
+                value={caste}
+                onChange={(e) => setCaste(e.target.value)}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
+                placeholder="Enter your caste"
+              />
+            </div>
+
+            {/* Password */}
             <div>
               <label
                 htmlFor="password"
@@ -131,13 +235,11 @@ const Register = ({ onLogin }) => {
               <div className="relative mt-1">
                 <input
                   id="password"
-                  name="password"
                   type={showPassword ? "text" : "password"}
-                  autoComplete="new-password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 placeholder-gray-400"
+                  className="block w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
                   placeholder="Create a password"
                 />
                 <button
@@ -150,6 +252,7 @@ const Register = ({ onLogin }) => {
               </div>
             </div>
 
+            {/* Confirm Password */}
             <div>
               <label
                 htmlFor="confirmPassword"
@@ -160,13 +263,11 @@ const Register = ({ onLogin }) => {
               <div className="relative mt-1">
                 <input
                   id="confirmPassword"
-                  name="confirmPassword"
                   type={showPassword ? "text" : "password"}
-                  autoComplete="new-password"
                   required
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="block w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 placeholder-gray-400"
+                  className="block w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500"
                   placeholder="Confirm your password"
                 />
                 <button
@@ -179,6 +280,7 @@ const Register = ({ onLogin }) => {
               </div>
             </div>
 
+            {/* Submit */}
             <div className="pt-2">
               <button
                 type="submit"

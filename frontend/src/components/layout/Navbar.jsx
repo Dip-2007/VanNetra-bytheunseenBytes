@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 
 const Navbar = ({ user, onLogout }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [selectedAvatar, setSelectedAvatar] = useState('/bizzy.jpg');
+  const [selectedAvatar, setSelectedAvatar] = useState('/icon1.jpg');
 
   const avatarOptions = [
-    '/bizzy.jpg',
+    '/user.png',
     '/icon2.png',
     '/icon3.png',
     '/icon4.png',
@@ -181,36 +181,46 @@ const Navbar = ({ user, onLogout }) => {
               </div>
 
               {/* Dropdown */}
-              <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200">
-                <ul className="py-2 text-sm text-gray-700">
-                  <li className="px-4 py-2">
-                    <p className="text-xs text-gray-400 mb-1">Choose Avatar</p>
-                    <div className="grid grid-cols-4 gap-2">
-                      {avatarOptions.map((avatar, idx) => (
-                        <img
-                          key={idx}
-                          src={avatar}
-                          alt={`Avatar ${idx + 1}`}
-                          className={`h-10 w-10 rounded-full object-cover cursor-pointer border-2 transition 
-                            ${
-                              selectedAvatar === avatar
-                                ? 'border-blue-500'
-                                : 'border-transparent hover:border-gray-300'
-                            }`}
-                          onClick={() => handleAvatarChange(avatar)}
-                        />
-                      ))}
-                    </div>
-                  </li>
-                  <hr className="my-2" />
-                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                    Profile
-                  </li>
-                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                    Settings
-                  </li>
-                </ul>
-              </div>
+             {/* Dropdown */}
+<div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200">
+  <ul className="py-2 text-sm text-gray-700">
+    <li className="px-4 py-2">
+      <p className="text-xs text-gray-400 mb-1">Choose Avatar</p>
+      <div className="grid grid-cols-4 gap-2">
+        {avatarOptions.map((avatar, idx) => (
+          <img
+            key={idx}
+            src={avatar}
+            alt={`Avatar ${idx + 1}`}
+            className={`h-10 w-10 rounded-full object-cover cursor-pointer border-2 transition 
+              ${
+                selectedAvatar === avatar
+                  ? 'border-blue-500'
+                  : 'border-transparent hover:border-gray-300'
+              }`}
+            onClick={() => handleAvatarChange(avatar)}
+          />
+        ))}
+      </div>
+    </li>
+    <hr className="my-2" />
+
+    {/* Profile Link */}
+    <li>
+      <Link
+        to="/profile"
+        className="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
+      >
+        Profile
+      </Link>
+    </li>
+
+    <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+      Settings
+    </li>
+  </ul>
+</div>
+
             </div>
           )}
           <button

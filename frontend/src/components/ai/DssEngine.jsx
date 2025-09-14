@@ -163,7 +163,7 @@ const DssEngine = ({ user, mockData }) => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 min-w-full">
+    <div className="container mx-auto px-4 py-8 bg-gradient-to-b from-green-200 to-blue-200 min-h-screen min-w-full">
       <div className="flex flex-col md:flex-row justify-between items-start mb-8">
         <div>
           <h1 className="text-3xl font-bold text-gray-800">Decision Support System</h1>
@@ -176,7 +176,7 @@ const DssEngine = ({ user, mockData }) => {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Selection Panel */}
         <div className="lg:col-span-1">
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="bg-white rounded-[2.4rem] shadow p-6">
             <h2 className="text-lg font-semibold text-gray-800 mb-4">Select FRA Record</h2>
             
             {user.role === 'admin' ? (
@@ -255,7 +255,7 @@ const DssEngine = ({ user, mockData }) => {
         {/* Recommendations Panel */}
         <div className="lg:col-span-3">
           {!selectedRecord ? (
-            <div className="bg-white rounded-lg shadow p-6 flex items-center justify-center h-full">
+            <div className="bg-white rounded-[2.4rem] shadow p-6 flex items-center justify-center h-full">
               <div className="text-center text-gray-500">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto mb-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -265,7 +265,7 @@ const DssEngine = ({ user, mockData }) => {
               </div>
             </div>
           ) : isLoading ? (
-            <div className="bg-white rounded-lg shadow p-6 flex items-center justify-center h-64">
+            <div className="bg-white rounded-[2.4rem] shadow p-6 flex items-center justify-center h-64">
               <div className="text-center">
                 <div className="w-16 h-16 border-4 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                 <p className="text-lg text-gray-700">AI Engine processing...</p>
@@ -273,7 +273,7 @@ const DssEngine = ({ user, mockData }) => {
               </div>
             </div>
           ) : analysisComplete ? (
-            <div className="bg-white rounded-lg shadow">
+            <div className="bg-white rounded-[2.4rem] shadow">
               <div className="border-b border-gray-200">
                 <nav className="flex">
                   <button
@@ -289,7 +289,7 @@ const DssEngine = ({ user, mockData }) => {
                   <button
                     className={`py-4 px-6 text-center border-b-2 font-medium ${
                       activeTab === 'interventions'
-                        ? 'border-green-600 text-green-600'
+                        ? 'border-blue-600 text-blue-600'
                         : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                     }`}
                     onClick={() => setActiveTab('interventions')}
@@ -307,7 +307,7 @@ const DssEngine = ({ user, mockData }) => {
                         Eligible Government Schemes
                       </h3>
                       {user.role === 'admin' && (
-                        <button className="text-sm bg-green-50 hover:bg-green-100 text-green-700 px-3 py-1 rounded-md">
+                        <button className="text-sm bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-md">
                           Export Report
                         </button>
                       )}
@@ -316,12 +316,12 @@ const DssEngine = ({ user, mockData }) => {
                     {recommendations.schemes && recommendations.schemes.length > 0 ? (
                       <div className="space-y-4">
                         {recommendations.schemes.map((scheme) => (
-                          <div key={scheme.id} className="border border-gray-200 rounded-lg p-4">
+                          <div key={scheme.id} className="border border-gray-300 rounded-[2.4rem] p-4">
                             <div className="flex justify-between">
-                              <h4 className="font-medium text-gray-800">{scheme.name}</h4>
+                              <h4 className="font-bold text-gray-800">{scheme.name}</h4>
                               <div className="flex items-center">
                                 <span className="text-sm font-medium mr-2">Match:</span>
-                                <div className="w-12 h-3 bg-gray-200 rounded-full overflow-hidden">
+                                <div className="w-12 h-3 bg-gray-500 rounded-full overflow-hidden">
                                   <div 
                                     className={`h-full ${
                                       scheme.matchScore >= 90 ? 'bg-green-500' :
@@ -333,10 +333,10 @@ const DssEngine = ({ user, mockData }) => {
                                 <span className="ml-2 text-sm">{scheme.matchScore}%</span>
                               </div>
                             </div>
-                            <p className="text-gray-600 text-sm mt-2">{scheme.description}</p>
+                            <p className="text-gray-600 text-sm font-medium mt-2">{scheme.description}</p>
                             <div className="mt-3 flex flex-col sm:flex-row sm:justify-between sm:items-center">
-                              <p className="text-sm text-gray-500">
-                                <span className="font-medium">Benefits:</span> {scheme.benefits}
+                              <p className="text-sm text-gray-600">
+                                <span className="font-bold">Benefits:</span> {scheme.benefits}
                               </p>
                               {user.role === 'admin' && (
                                 <button className="mt-2 sm:mt-0 text-sm text-white bg-green-600 hover:bg-green-700 px-3 py-1 rounded">
@@ -346,7 +346,7 @@ const DssEngine = ({ user, mockData }) => {
                             </div>
                             <div className="mt-3 pt-3 border-t border-gray-100">
                               <p className="text-sm text-gray-600">
-                                <span className="font-medium">AI Reasoning:</span> {scheme.reason}
+                                <span className="font-bold">AI Reasoning:</span> {scheme.reason}
                               </p>
                             </div>
                           </div>
@@ -367,7 +367,7 @@ const DssEngine = ({ user, mockData }) => {
                         Suggested Interventions
                       </h3>
                       {user.role === 'admin' && (
-                        <button className="text-sm bg-blue-50 hover:bg-blue-100 text-blue-700 px-3 py-1 rounded-md">
+                        <button className="text-sm bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-md">
                           Action Plan
                         </button>
                       )}
@@ -376,7 +376,7 @@ const DssEngine = ({ user, mockData }) => {
                     {recommendations.interventions && recommendations.interventions.length > 0 ? (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {recommendations.interventions.map((intervention) => (
-                          <div key={intervention.id} className="border border-gray-200 rounded-lg p-4">
+                          <div key={intervention.id} className="border border-gray-300 rounded-[2.4rem] p-4">
                             <div className="flex items-start">
                               <div className={`mt-0.5 p-1 rounded-md ${
                                 intervention.category === 'Water' ? 'bg-blue-100' :
